@@ -1,3 +1,5 @@
+import io
+from PIL import Image
 import face_recognition as fr
 import numpy as np
 import os
@@ -29,13 +31,14 @@ def load_and_encode_faces(dataset_path):
     return known_face_encodings, known_face_names
 
 
-def recognize_faces_in_image(known_face_encodings, known_face_names, image_path):
-    test_image = fr.load_image_file(image_path)
+def recognize_faces_in_image(known_face_encodings, known_face_names, image_data):
+    image = Image.open(io.BytesIO(image_data))
+    test_image = np.array(image)
+
     face_encodings = fr.face_encodings(test_image)
 
     if len(face_encodings) == 0:
-        print("No face detected")
-        return
+        return ("No face detected", False)
 
     for face_encoding in face_encodings:
         matches = fr.compare_faces(known_face_encodings, face_encoding)
@@ -43,28 +46,7 @@ def recognize_faces_in_image(known_face_encodings, known_face_names, image_path)
         best_match_index = np.argmin(face_distances)
 
         if not matches[best_match_index]:
-            print("Unknown!")
-            print("Status: Reject")
-
-            return False
+            return ("Unknown", False)
 
         name = known_face_names[best_match_index]
-        print(f"Welcome {name} ~")
-        print("Status: Accept")
-
-        return True
-
-
-if __name__ == "__main__":
-    dataset_path = "dataset"
-
-    if os.path.exists(MODEL_PATH):
-        print("Loading encodings from file...")
-        with open(MODEL_PATH, "rb") as f:
-            known_face_encodings, known_face_names = pickle.load(f)
-    else:
-        print("Encoding faces from dataset...")
-        known_face_encodings, known_face_names = load_and_encode_faces(dataset_path)
-
-    test_image_path = "validation/Lilas Ikuta/20.jpg"
-    recognize_faces_in_image(known_face_encodings, known_face_names, test_image_path)
+        return (name, True)

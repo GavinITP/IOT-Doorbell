@@ -1,5 +1,0 @@
-setuptools
-face_recognition
-numpy
-websockets
-firebase-admin
