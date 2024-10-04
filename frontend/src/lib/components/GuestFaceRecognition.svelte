@@ -28,36 +28,36 @@
         }
     });
 
-    const sendMessage = (message: string) => {
-        showSentMessageStatus = true; 
-        if (ws) {
-            ws.send(message); 
-            console.log(`Sent message: ${message}`);
-            sentMessageStatus = message + ' successfully'; 
-        } else {
-            console.error('WebSocket connection is not established');
-            sentMessageStatus = 'Error'; 
-        }
-    };
-
-    const handleApprove = () => {
-        sendMessage('Approved');
-    };
-
-    const handleReject = () => {
-        sendMessage('Rejected');
-    };
-
-    $: if (showSentMessageStatus) {
-        setTimeout(() => {
-            showSentMessageStatus = false;
-        }, 1000);
-    }
+    // const sendMessage = (message: string) => {
+    //     showSentMessageStatus = true;
+    //     if (ws) {
+    //         ws.send(message);
+    //         console.log(`Sent message: ${message}`);
+    //         sentMessageStatus = message + ' successfully';
+    //     } else {
+    //         console.error('WebSocket connection is not established');
+    //         sentMessageStatus = 'Error';
+    //     }
+    // };
+    //
+    // const handleApprove = () => {
+    //     sendMessage('Approved');
+    // };
+    //
+    // const handleReject = () => {
+    //     sendMessage('Rejected');
+    // };
+    //
+    // $: if (showSentMessageStatus) {
+    //     setTimeout(() => {
+    //         showSentMessageStatus = false;
+    //     }, 1000);
+    // }
 </script>
 
 <Card.Root class="flex w-full flex-col items-center justify-center">
     <Card.Header>
-        <Card.Title class="text-2xl">Verify Guest</Card.Title>
+        <Card.Title class="text-2xl">Guest Face Recognition</Card.Title>
     </Card.Header>
     <Card.Content class="space-y-4">
 
@@ -85,9 +85,9 @@
             {/if}
         </div>
 
-        <div class="flex justify-center gap-4">
-            <Button class="bg-green-500 hover:bg-green-500" on:click={handleApprove}>Approve</Button>
-            <Button variant="destructive" on:click={handleReject}>Reject</Button>
-        </div>
+<!--        <div class="flex justify-center gap-4">-->
+<!--            <Button class="bg-green-500 hover:bg-green-500" on:click={handleApprove}>Approve</Button>-->
+<!--            <Button variant="destructive" on:click={handleReject}>Reject</Button>-->
+<!--        </div>-->
     </Card.Content>
 </Card.Root>
