@@ -10,6 +10,9 @@ from face_recog import load_and_encode_faces, recognize_faces_in_image
 
 MODEL_PATH = "model/encoded.pickle"
 
+known_face_encodings = []
+known_face_names = []
+
 logging.basicConfig(level=logging.INFO)
 connections = {"raspberry_pi": None, "frontend": None}
 
@@ -43,15 +46,6 @@ async def ws_handler(websocket, path):
 
 async def process_image_data(image_data):
     try:
-        if os.path.exists(MODEL_PATH):
-            logging.info("Loading encodings from file...")
-            with open(MODEL_PATH, "rb") as f:
-                known_face_encodings, known_face_names = pickle.load(f)
-        else:
-            logging.info("Encoding faces from dataset...")
-            dataset_path = "dataset"
-            known_face_encodings, known_face_names = load_and_encode_faces(dataset_path)
-
         name, accepted = recognize_faces_in_image(
             known_face_encodings, known_face_names, image_data
         )
@@ -74,7 +68,7 @@ async def process_image_data(image_data):
         if connections["raspberry_pi"]:
             await connections["raspberry_pi"].send(response_message)
         else:
-            logging.warning("Raspberry Pi connection is not available.")
+            logging.warning("Raspberry Pi connection is not available")
 
     except Exception as e:
         logging.error(f"Error processing image: {e}")
@@ -83,11 +77,23 @@ async def process_image_data(image_data):
 
 
 async def main():
+    global known_face_encodings, known_face_names
+
+    initialize_firebase()
+
+    if os.path.exists(MODEL_PATH):
+        logging.info("Loading encodings from file...")
+        with open(MODEL_PATH, "rb") as f:
+            known_face_encodings, known_face_names = pickle.load(f)
+    else:
+        logging.info("Encoding faces from dataset...")
+        dataset_path = "dataset"
+        known_face_encodings, known_face_names = load_and_encode_faces(dataset_path)
+
     async with websockets.serve(ws_handler, "localhost", 8080):
         logging.info("WebSocket server started at ws://localhost:8080")
         await asyncio.Future()
 
 
 if __name__ == "__main__":
-    initialize_firebase()
     asyncio.run(main())

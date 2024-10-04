@@ -15,7 +15,7 @@ async def send_image(websocket, image_path):
             with Image.open(image_path) as img:
                 img = img.convert("RGB")
                 img_byte_arr = io.BytesIO()
-                img.save(img_byte_arr, format="PNG")
+                img.save(img_byte_arr, format="JPEG")
                 image_data = img_byte_arr.getvalue()
 
                 await websocket.send(image_data)
@@ -41,7 +41,7 @@ async def main():
     uri = f"ws://localhost:{PORT}?type=raspberry_pi"
 
     async with websockets.connect(uri) as websocket:
-        image_path = "images/Elon Musk/18.jpg"
+        image_path = "images/Unknown/test.png"
 
         await send_image(websocket, image_path)
         await receive_status(websocket)
