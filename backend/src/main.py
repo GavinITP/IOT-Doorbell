@@ -90,6 +90,8 @@ async def main():
         dataset_path = "dataset"
         known_face_encodings, known_face_names = load_and_encode_faces(dataset_path)
 
+    logging.info("Completely loaded face encoding")
+
     async with websockets.serve(ws_handler, "localhost", 8080):
         logging.info("WebSocket server started at ws://localhost:8080")
         await asyncio.Future()
