@@ -5,20 +5,20 @@ The system comprises three main components: a backend service, a frontend applic
 
 ![IoT Doorbell Image](https://i.ibb.co/0tZYvbW/iot.png)
 
-## Set Up & Guide
+# Set Up & Guide
 
-### Requirements
+## Requirements
 - [Requirements for face_recognition package](https://github.com/ageitgey/face_recognition)
 - Python 3
 
-### Backend
+## Backend
 
-#### Navigate to backend/
+### Navigate to backend/
 ```
 cd backend
 ```
 
-#### Set Up a Virtual Environment (Optional)
+### Set Up a Virtual Environment (Optional)
 1. Create a Virtual Environment
 ```
 python -m venv .venv
@@ -32,15 +32,15 @@ source myenv/bin/activate
 ```
 env\Scripts\activate
 ```
-#### Install Packages
+### Install Packages
 ```
 pip install -r requirements.txt
 ```
-#### Run
+### Run
 ```
 python3 src/main.py
 ```
-### How can I train a face recognition model ?
+## How can I train a face recognition model ?
 *(Assume that you have already navigated to backend/ and completely set up the backend)*
 1. Delete encoded.pickle in the backend/model if that file exists
 ```
@@ -57,32 +57,37 @@ rm model/encoded.pickle
 python3 src/main.py
 ``` 
 
-### Frontend
+## Frontend
 
-#### Navigate to frontend/
+### Navigate to frontend/
 ```
 cd frontend
 ```
-#### Install Dependencies
+### Install Dependencies
 ```
 npm install
 ```
-#### Run
+### Run
 ```
 npm run dev
 ```
 
-### Raspberry Pi
+## Raspberry Pi
 
-#### Navigate to raspberry-pi/
+### Navigate to raspberry-pi/
 ```
 cd raspberry-pi
 ```
 
-#### Set Up a Virtual Environment (Optional)
+### Set Up a Virtual Environment (Optional)
 *(Same as above)*
 
-#### Run
+### Install Packages
+```
+pip install -r requirements.txt
+```
+
+### Run
 ```
 python3 src/main.py
 ```
