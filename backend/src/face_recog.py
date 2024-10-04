@@ -45,8 +45,8 @@ def recognize_faces_in_image(known_face_encodings, known_face_names, image_data)
         face_distances = fr.face_distance(known_face_encodings, face_encoding)
         best_match_index = np.argmin(face_distances)
 
-        if not matches[best_match_index]:
-            return ("Unknown", False)
+        if matches[best_match_index]:
+            name = known_face_names[best_match_index]
+            return (name, True)
 
-        name = known_face_names[best_match_index]
-        return (name, True)
+    return ("Unknown", False)
