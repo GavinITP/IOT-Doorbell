@@ -18,6 +18,9 @@ The system comprises three main components: a backend service, a frontend applic
 cd backend
 ```
 
+### Firebase credential
+- Add service_account_key.json in src/
+
 ### Set Up a Virtual Environment (Optional)
 1. Create a Virtual Environment
 ```
