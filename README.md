@@ -77,6 +77,9 @@ npm run dev
 
 ## Raspberry Pi
 
+### Choose image to sent to backend
+- change image_path in src/main.py
+
 ### Navigate to raspberry-pi/
 ```
 cd raspberry-pi
