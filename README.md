@@ -51,7 +51,7 @@ rm model/encoded.pickle
 ```
 2. In dataset/, Create a new folder with the person's name and insert their face images
 - Recommend: >= 15 images
-- You can use any file name with **.jpg .jpeg or .png**
+- You can use any file name and file extension with **.jpg .jpeg or .png**
 
 ![folder](https://i.ibb.co/mCr2N66/Screenshot-2567-10-04-at-17-24-15.png)
 
