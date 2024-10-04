@@ -3,8 +3,6 @@
 This project implements a smart doorbell system that leverages facial recognition technology to enhance home security.
 The system comprises three main components: a backend service, a frontend application, and a Raspberry Pi interface.
 
-![IoT Doorbell Image](https://i.ibb.co/0tZYvbW/iot.png)
-
 # Set Up & Guide
 
 ## Requirements
