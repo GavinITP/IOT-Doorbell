@@ -38,7 +38,7 @@ async def receive_status(websocket):
 
 async def main():
     PORT = 8080
-    uri = f"ws://localhost:{PORT}?type=rasberry_pi"
+    uri = f"ws://localhost:{PORT}?type=raspberry_pi"
 
     async with websockets.connect(uri) as websocket:
         image_path = "images/Elon Musk/18.jpg"
