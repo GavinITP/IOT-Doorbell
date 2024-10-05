@@ -3,8 +3,6 @@ import firebase_admin
 from firebase_admin import credentials, storage
 from datetime import datetime
 
-from macaroonbakery.checkers import expiry_time
-
 FIREBASE_AUTH_FILE_PATH = "src/service_account_key.json"
 
 
