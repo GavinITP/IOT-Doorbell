@@ -48,8 +48,10 @@ def recognize_faces_in_image(known_face_encodings, known_face_names, image_data)
         matches = fr.compare_faces(known_face_encodings, face_encoding)
         face_distances = fr.face_distance(known_face_encodings, face_encoding)
 
-        threshold = 0.4
+        threshold = 0.35
         best_match_index = np.argmin(face_distances)
+
+        # logging.info(f"Confident Score: {(1 - threshold) * 100}%")
 
         if matches[best_match_index] and face_distances[best_match_index] < threshold:
             print("matches[best_match_index]", matches[best_match_index])
