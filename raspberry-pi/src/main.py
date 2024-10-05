@@ -41,7 +41,7 @@ async def main():
     uri = f"ws://localhost:{PORT}?type=raspberry_pi"
 
     async with websockets.connect(uri) as websocket:
-        image_path = "images/Unknown/test.png"
+        image_path = "images/Unknown/boss.jpg"
 
         await send_image(websocket, image_path)
         await receive_status(websocket)
