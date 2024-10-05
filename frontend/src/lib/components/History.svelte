@@ -43,7 +43,7 @@
     }
 
     onMount(async () => {
-        await fetch('http://localhost:8000/history')
+        await fetch('http://0.0.0.0:8000/history')
             .then(response => response.json())
             .then(data => {
                 for (let i = 0; i < data.history.length; i++) {

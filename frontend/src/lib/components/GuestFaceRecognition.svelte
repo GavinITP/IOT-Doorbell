@@ -10,7 +10,7 @@
     let countDown = 0;
 
     onMount(() => {
-        ws = new WebSocket('ws://localhost:8080/ws?type=frontend');
+        ws = new WebSocket('ws://0.0.0.0:8080?type=frontend');
 
         ws.onmessage = (event) => {
             if (typeof event.data === 'string') {
