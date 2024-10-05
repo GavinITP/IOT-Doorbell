@@ -32,7 +32,7 @@
     }
 
     function groupHistoryByDate(items: HistoryItem[]): GroupedHistory {
-        let grouped: any = {};
+        let grouped: GroupedHistory = {};
         items.forEach(item => {
             const date = new Date(item.timestamp);
             const dateKey = formatDate(date);
@@ -63,7 +63,14 @@
         ];
         historyItems = mockData;
         groupedHistory = groupHistoryByDate(historyItems);
+
+
     });
+
+
+
+
+
 
 </script>
 

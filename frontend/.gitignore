@@ -1,4 +1,5 @@
 node_modules
+src/service_account_key.json
 
 # Output
 .output
