@@ -35,6 +35,7 @@
                 grouped[dateKey] = [];
             }
             grouped[dateKey].push(item);
+            grouped[dateKey].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
         });
 
         return grouped;
