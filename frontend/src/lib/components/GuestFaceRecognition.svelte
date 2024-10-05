@@ -5,8 +5,8 @@
 
     let imageSrc = ''; 
     let ws: WebSocket | null = null;
-    let name = '';
-    let status = '';
+    let name = 'fadsf';
+    let status = 'fadsfsd';
 
     onMount(() => {
         ws = new WebSocket('ws://localhost:8080/ws?type=frontend');
@@ -45,11 +45,21 @@
                     <p class="text-gray-600">No guest...</p>
                 </div>
                 <div>
-                    <p>{name}</p>
-                    <p>{status}</p>
                 </div>
             {/if}
         </div>
+        {#if imageSrc}
+            <div class="flex flex-col items-center justify-center text-xl font-bold">
+                <p>name: {name}</p>
+                <p>status:
+                    {#if status === "Accept"}
+                        <span class="text-green-500">Accepted</span>
+                    {:else if status === "Reject"}
+                        <span class="text-red-500">Rejected</span>
+                    {/if}
+                </p>
+            </div>
+        {/if}
 
     </Card.Content>
 </Card.Root>

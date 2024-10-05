@@ -68,7 +68,7 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="mb-6 text-3xl font-bold">Guest History</h1>
     {#each Object.entries(groupedHistory).sort(([dateA], [dateB]) => new Date(dateB).getTime() - new Date(dateA).getTime()) as [date, items]}
-        <div class="mb-8">
+        <div class="mb-16">
             {#if date === formatDate(new Date())}
                 <h2 class="mb-4 text-2xl">Today</h2>
             {:else if date === formatDate(new Date(new Date().setDate(new Date().getDate() - 1)))}
