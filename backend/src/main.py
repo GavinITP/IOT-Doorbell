@@ -4,8 +4,11 @@ import os
 import pickle
 import websockets
 import logging
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 
-from firebase_utils import initialize_firebase, upload_image_to_firebase
+from firebase_utils import initialize_firebase, upload_image_to_firebase, fetch_all_history_images
 from face_recog import load_and_encode_faces, recognize_faces_in_image
 
 MODEL_PATH = "model/encoded.pickle"
@@ -92,10 +95,30 @@ async def main():
 
     logging.info("Completely loaded face encoding")
 
-    async with websockets.serve(ws_handler, "localhost", 8080):
-        logging.info("WebSocket server started at ws://localhost:8080")
-        await asyncio.Future()
+    async def start_websocker_server():
+        async with websockets.serve(ws_handler, "localhost", 8080):
+            logging.info("WebSocket server started at ws://localhost:8080")
+            await asyncio.Future()
 
+    async def start_fastapi_server():
+        config = uvicorn.Config("main:app", host="0.0.0.0", port=8000, log_level="info")
+        server = uvicorn.Server(config)
+        await server.serve()
+
+    await asyncio.gather(start_websocker_server(), start_fastapi_server())
+
+
+app = FastAPI()
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
+
+@app.get("/history")
+async def get_history():
+    try:
+        image_urls = await fetch_all_history_images()
+        return {"history": image_urls}
+    except Exception as e:
+        logging.error(f"Error fetching history images: {e}")
+        return {"history": []}
 
 if __name__ == "__main__":
     asyncio.run(main())
