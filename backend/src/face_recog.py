@@ -1,4 +1,5 @@
 import io
+import logging
 from PIL import Image
 import face_recognition as fr
 import numpy as np
@@ -24,6 +25,9 @@ def load_and_encode_faces(dataset_path):
                 if len(face_encodings) > 0:
                     known_face_encodings.append(face_encodings[0])
                     known_face_names.append(person_name)
+                    logging.info(f"Encoded {person_name} from {image_path}")
+                else:
+                    logging.warning(f"No face found in {image_path}")
 
     with open(MODEL_PATH, "wb") as f:
         pickle.dump((known_face_encodings, known_face_names), f)
@@ -43,9 +47,14 @@ def recognize_faces_in_image(known_face_encodings, known_face_names, image_data)
     for face_encoding in face_encodings:
         matches = fr.compare_faces(known_face_encodings, face_encoding)
         face_distances = fr.face_distance(known_face_encodings, face_encoding)
+
+        threshold = 0.4
         best_match_index = np.argmin(face_distances)
 
-        if matches[best_match_index]:
+        if matches[best_match_index] and face_distances[best_match_index] < threshold:
+            print("matches[best_match_index]", matches[best_match_index])
+            print("face_distances[best_match_index]", face_distances[best_match_index])
+
             name = known_face_names[best_match_index]
             return (name, True)
 

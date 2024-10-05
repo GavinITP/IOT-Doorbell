@@ -49,6 +49,16 @@ async def ws_handler(websocket, path):
 
 async def process_image_data(image_data):
     try:
+        if not image_data or len(image_data) == 0:
+            logging.error("Received empty image data.")
+            return
+
+        logging.info(f"Image data size: {len(image_data)} bytes")
+
+        if not known_face_encodings or not known_face_names:
+            logging.error("No known face encodings or names available in model.")
+            return
+
         name, accepted = recognize_faces_in_image(
             known_face_encodings, known_face_names, image_data
         )
@@ -65,7 +75,7 @@ async def process_image_data(image_data):
 
         current_datetime = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
         file_extension = "jpg" if image_data.startswith(b"\xff\xd8") else "png"
-        file_name = f"{current_datetime}_{name}.{file_extension}"
+        file_name = f"{current_datetime}_{name}_{status}.{file_extension}"
         await upload_image_to_firebase(image_data, file_name)
 
         if connections["raspberry_pi"]:
@@ -96,12 +106,12 @@ async def main():
     logging.info("Completely loaded face encoding")
 
     async def start_websocker_server():
-        async with websockets.serve(ws_handler, "localhost", 8080):
-            logging.info("WebSocket server started at ws://localhost:8080")
+        async with websockets.serve(ws_handler, "0.0.0.0", 8080):
+            logging.info("WebSocket server started at ws://0.0.0.0:8080")
             await asyncio.Future()
 
     async def start_fastapi_server():
-        config = uvicorn.Config("main:app", host="0.0.0.0", port=8000, log_level="info")
+        config = uvicorn.Config("main:app", host="0.0.0.0", port=8080, log_level="info")
         server = uvicorn.Server(config)
         await server.serve()
 
