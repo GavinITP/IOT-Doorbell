@@ -5,6 +5,7 @@
 
     interface HistoryItem {
         id: number;
+        name: string;
         imageSrc: string;
         timestamp: string;
         status: 'Accept' | 'Reject' | 'Ignore';
@@ -47,11 +48,22 @@
                     let item = data.history[i];
                     item.timestamp = new Date(item.timestamp).toLocaleString();
                     console.log(item);
+                    let status = item.name.split('_')[3];
+                    if (status === 'Accept.jpg') {
+                        status = 'Accept';
+                    } else {
+                        status = 'Reject';
+                    }
+                    let name:string = item.name.split('_')[2];
+                    if (name.includes('.jpg')) {
+                        name = "Unknown";
+                    }
                     historyItems.push({
                         id: i,
+                        name: name,
                         imageSrc: item.url,
                         timestamp: item.timestamp,
-                        status: "Accept"
+                        status: status
                     });
                 }
                 groupedHistory = groupHistoryByDate(historyItems);
@@ -83,6 +95,7 @@
                             <img src={item.imageSrc} alt="Guest at {item.timestamp}" class="w-full h-full object-cover"/>
                             <div class="p-4">
                                 <p class="text-sm text-gray-500">{new Date(item.timestamp).toLocaleTimeString()}</p>
+                                <p class="text-lg font-bold">{item.name}</p>
                                 <div class="mt-2 flex items-center justify-between">
                                     {#if item.status === 'Accept'}
                                         <span class="text-green-500">Accepted</span>

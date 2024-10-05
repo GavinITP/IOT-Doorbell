@@ -5,8 +5,9 @@
 
     let imageSrc = ''; 
     let ws: WebSocket | null = null;
-    let name = 'fadsf';
-    let status = 'fadsfsd';
+    let name = '';
+    let status = '';
+    let countDown = 0;
 
     onMount(() => {
         ws = new WebSocket('ws://localhost:8080/ws?type=frontend');
@@ -16,9 +17,11 @@
                 name = event.data.split(":")[0];
                 status = event.data.split(":")[1];
                 console.log(`Received message: ${event.data}`);
+                countDown = 10;
             } else if (event.data instanceof Blob) {
                 const blob = event.data;
                 imageSrc = URL.createObjectURL(blob);
+                countDown = 10
             }
         };
     });
@@ -28,6 +31,16 @@
             ws.close();
         }
     });
+
+    setInterval(() => {
+        if (countDown > 0) {
+            countDown--;
+        } else {
+            imageSrc = '';
+            name = '';
+            status = '';
+        }
+    }, 1000);
 
 </script>
 
