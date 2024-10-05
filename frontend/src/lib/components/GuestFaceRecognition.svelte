@@ -10,12 +10,12 @@
     let countDown = 0;
 
     onMount(() => {
-        ws = new WebSocket('ws://0.0.0.0:8080?type=frontend');
+        ws = new WebSocket('ws://175.41.178.14:8080?type=frontend');
 
         ws.onmessage = (event) => {
             if (typeof event.data === 'string') {
                 name = event.data.split(":")[0];
-                status = event.data.split(":")[1];
+                status = event.data.split(": ")[1];
                 console.log(`Received message: ${event.data}`);
                 countDown = 10;
             } else if (event.data instanceof Blob) {
